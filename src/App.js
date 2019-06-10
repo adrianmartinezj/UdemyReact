@@ -32,25 +32,32 @@ class App extends Component {
   }
 
   render() {
+
+    let persons = null;
+
+    if (this.state.showPersons){
+      persons = (
+        <div>
+        <Person 
+          name={this.state.persons[0].name} 
+          age={this.state.persons[0].age}/>
+        <Person 
+          name={this.state.persons[1].name} 
+          age={this.state.persons[1].age}
+          click={this.switchNameHandler.bind(this, 'Adrian!')}/>
+        <Person 
+          name={this.state.persons[2].name} 
+          age={this.state.persons[2].age}/>
+      </div>
+      );
+    }
+
     return (
       <div className="App">
         <h1>Hi, I'm a React App!</h1>
         <p>This is really working!</p>
-        <button onClick={this.togglePersonsHandler}>Switch Name</button>
-        { this.state.showPersons ? // can't use if, have to use ternary
-        <div>
-          <Person 
-            name={this.state.persons[0].name} 
-            age={this.state.persons[0].age}/>
-          <Person 
-            name={this.state.persons[1].name} 
-            age={this.state.persons[1].age}
-            click={this.switchNameHandler.bind(this, 'Adrian!')}/>
-          <Person 
-            name={this.state.persons[2].name} 
-            age={this.state.persons[2].age}/>
-        </div> : null
-        }
+        <button onClick={this.togglePersonsHandler}>Toggle Persons</button>
+        {persons}
       </div>
     );
     // return React.createElement('div', {className: 'App'}, React.createElement('h1', null, "Hi, I'm a React App!!!"));
