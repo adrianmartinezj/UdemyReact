@@ -41,7 +41,9 @@ class App extends Component {
       backgroundColor: 'white',
       font: 'inherit',
       border: '1px solid blue',
-      padding: '8px'
+      padding: '8px',
+      cursor: 'pointer'
+      //Can't change onHover things easily, so we can't really do that here
     };
 
     return (
