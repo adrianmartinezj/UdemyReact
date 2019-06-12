@@ -6,9 +6,9 @@ class App extends Component {
   state = {
     // 'persons' name is up to user
     persons: [
-      {name: 'Adrian', age: 24},
-      {name: 'Manu', age: 29},
-      {name: 'Stephanie', age: 26}
+      {id: 'asdf', name: 'Adrian', age: 24},
+      {id: 'asdfas', name: 'Manu', age: 29},
+      {id: 'asgads', name: 'Stephanie', age: 26}
     ],
     otherState: 'some other value',
     showPersons: false
@@ -20,25 +20,38 @@ class App extends Component {
   }
 
   deletePersonHandler = (personIndex) => {
-    const persons = this.state.persons;
+    // const persons = this.state.persons.slice();
+    const persons = [...this.state.persons];
     persons.splice(personIndex, 1);
     this.setState({persons: persons});
   }
 
-  nameChangedHandler = (event) => {
-    this.setState({
-      persons: [
-        {name: 'Adrian', age: 24},
-        {name: event.target.value, age: 29},
-        {name: 'Stephanie', age: 27}
-      ]
-    })
+  nameChangedHandler = (event, id) => {
+    //findIndex works like map, will execute function on every element
+    const personIndex = this.state.persons.findIndex(p => {
+      return p.id === id;
+    });
+
+    // spread operator will create new object copy instead of pointer ref
+    const person = {
+      ...this.state.persons[personIndex]
+    }
+
+    // alternate way of doing it
+    // const person = Object.assign({}, this.state.persons[personIndex]);
+    person.name = event.target.value;
+
+    const persons = [...this.state.persons];
+    persons[personIndex] = person;
+
+    this.setState( {persons: persons} );
   }
 
   render() {
     const style = {
       //This is the inline styling using JS notation
-      backgroundColor: 'white',
+      backgroundColor: 'green',
+      color: 'white',
       font: 'inherit',
       border: '1px solid blue',
       padding: '8px',
@@ -55,17 +68,33 @@ class App extends Component {
             return <Person 
             click={() => this.deletePersonHandler(index)}
             name={person.name} 
-            age={person.age} />;
+            age={person.age}
+            key={person.id}
+            changed={(event) => this.nameChangedHandler(event, person.id)} />;
           })}
       </div>
       );
+      //dynamically change the styling using javascript
+      style.backgroundColor = 'red';
     }
+
+    const classes = [];
+    if(this.state.persons.length <= 2){
+      classes.push('red'); //classes = ['red']
+    }
+    if(this.state.persons.length <= 1){
+      classes.push('bold'); //classes = ['red', 'bold']
+    }
+
+
 
     return (
       <div className="App">
         <h1>Hi, I'm a React App!</h1>
-        <p>This is really working!</p>
-        <button onClick={this.togglePersonsHandler}>Toggle Persons</button>
+        <p className={classes.join(' ')}>This is really working!</p>
+        <button
+          style={style}
+          onClick={this.togglePersonsHandler}>Toggle Persons</button>
         {persons}
       </div>
     );
