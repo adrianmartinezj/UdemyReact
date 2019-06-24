@@ -48,18 +48,8 @@ class App extends Component {
   }
 
   render() {
-    const style = {
-      //This is the inline styling using JS notation
-      backgroundColor: 'green',
-      color: 'white',
-      font: 'inherit',
-      border: '1px solid blue',
-      padding: '8px',
-      cursor: 'pointer',
-      //Can't change onHover things easily, so we can't really do that here
-    };
-
     let persons = null;
+    let btnClass = '';
 
     if (this.state.showPersons){
       persons = (
@@ -74,8 +64,7 @@ class App extends Component {
           })}
       </div>
       );
-      //dynamically change the styling using javascript
-      style.backgroundColor = 'red';
+      btnClass = classes.Red;
     }
 
     const assignedClasses = [];
@@ -93,7 +82,7 @@ class App extends Component {
           <h1>Hi, I'm a React App!</h1>
           <p className={assignedClasses.join(' ')}>This is really working!</p>
           <button
-            style={style}
+            className = {btnClass}
             onClick={this.togglePersonsHandler}>Toggle Persons</button>
           {persons}
         </div>
