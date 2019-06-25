@@ -3,7 +3,9 @@ import React from 'react';
 import Person from './Person/Person';
 
 //Parantheses means it automatically returns -- only works with arrow functions
-const persons = (props) => props.persons.map( (person, index) => {
+const persons = (props) => {
+  console.log('[Persons.js] render');
+  return props.persons.map( (person, index) => {
         return <Person 
         click={() => props.clicked(index)}
         name={person.name} 
@@ -11,5 +13,6 @@ const persons = (props) => props.persons.map( (person, index) => {
         key={person.id}
         changed={(event) => props.changed(event, person.id)} />;
       } );
+    }
 
 export default persons;
