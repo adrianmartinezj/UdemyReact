@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
-import './App.css';
-import Person from './Person/Person';
+import classes from './App.css';
+import Persons from '../components/Persons/Persons';
+import Cockpit from '../components/Cockpit/Cockpit';
 
 class App extends Component {
+
+  constructor(props) {
+    super(props);
+    console.log('[App.js] constructor');
+  }
+
   state = {
     // 'persons' name is up to user
     persons: [
@@ -14,9 +21,19 @@ class App extends Component {
     showPersons: false
   }
 
+  //React lifestyle hook
+  static getDerivedStateFromProps(props, state){
+    console.log('[App.js] getDerivedStateFromProps', props);
+    return state;
+  }
+
   togglePersonsHandler = () => {
     const doesShow = this.state.showPersons;
     this.setState({showPersons: !doesShow});
+  }
+
+  componentDidMount() {
+    console.log('[App.js] componentDidMount');
   }
 
   deletePersonHandler = (personIndex) => {
@@ -48,53 +65,25 @@ class App extends Component {
   }
 
   render() {
-    const style = {
-      //This is the inline styling using JS notation
-      backgroundColor: 'green',
-      color: 'white',
-      font: 'inherit',
-      border: '1px solid blue',
-      padding: '8px',
-      cursor: 'pointer',
-      //Can't change onHover things easily, so we can't really do that here
-    };
-
+    console.log('[App.js] render');
     let persons = null;
 
     if (this.state.showPersons){
       persons = (
-        <div>
-          {this.state.persons.map((person, index) => {
-            return <Person 
-            click={() => this.deletePersonHandler(index)}
-            name={person.name} 
-            age={person.age}
-            key={person.id}
-            changed={(event) => this.nameChangedHandler(event, person.id)} />;
-          })}
-      </div>
+          <Persons 
+            persons={this.state.persons}
+            clicked={this.deletePersonHandler}
+            changed={this.nameChangedHandler} />
       );
-      //dynamically change the styling using javascript
-      style.backgroundColor = 'red';
+      
     }
-
-    const classes = [];
-    if(this.state.persons.length <= 2){
-      classes.push('red'); //classes = ['red']
-    }
-    if(this.state.persons.length <= 1){
-      classes.push('bold'); //classes = ['red', 'bold']
-    }
-
-
 
     return (
-        <div className="App">
-          <h1>Hi, I'm a React App!</h1>
-          <p className={classes.join(' ')}>This is really working!</p>
-          <button
-            style={style}
-            onClick={this.togglePersonsHandler}>Toggle Persons</button>
+        <div className={classes.App}>
+          <Cockpit 
+            showPersons={this.state.showPersons}
+            persons={this.state.persons}
+            clicked={this.togglePersonsHandler}/>
           {persons}
         </div>
     );
