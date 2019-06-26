@@ -11,6 +11,7 @@ const cockpit = (props) => {
         alert('Saved data to cloud!');
       }, 1000);
       return () => { //this will run before the regular useEffect function, but after the first render cycle
+        // clearTimeout(timer);
         console.log('[Cockpit.js] cleanup work in useEffect');
       };
     }, []); // empty array means no dependencies making use effect only execute once at start

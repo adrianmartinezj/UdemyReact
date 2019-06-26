@@ -40,7 +40,7 @@ class App extends Component {
   shouldComponentUpdate(nextProps, nextState) {
     console.log('[App.js] shouldComponentUpdate');
     // return false; straight up breaks the update cycle
-    return true;
+    return true; // will always update the virtual DOM
   }
 
   componentDidUpdate() {
