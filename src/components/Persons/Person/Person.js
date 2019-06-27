@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 
-import Aux from '../../../hoc/Auxiliary'
+import Aux from '../../../hoc/Auxiliary';
+import withClass from '../../../hoc/withClass';
 import classes from './Person.css';
 
 class Person extends Component{
@@ -9,6 +10,8 @@ class Person extends Component{
         console.log('[Person.js] render');
         return (
             // Another way to return one element by wrapping in one HOC (Higher Order Component).
+            // Fragment is another way to use Aux but it's included with React
+            // they're exactly the same thing.
             <Aux>
                 <p onClick={this.props.click}>I'm {this.props.name} and I am {this.props.age} years old!</p>
                 <p>{this.props.children}</p>
@@ -33,4 +36,4 @@ class Person extends Component{
     }
 };
 
-export default Person;
+export default withClass(Person, classes.Person);
