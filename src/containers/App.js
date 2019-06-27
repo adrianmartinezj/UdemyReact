@@ -21,7 +21,8 @@ class App extends Component {
     ],
     otherState: 'some other value',
     showPersons: false,
-    showCockpit: true
+    showCockpit: true,
+    changeCounter: 0
   }
 
   //React lifestyle hook
@@ -74,8 +75,13 @@ class App extends Component {
     const persons = [...this.state.persons];
     persons[personIndex] = person;
 
-    this.setState( {persons: persons} );
-  }
+    // Best practice for state updates that depend on the old state
+    this.setState((prevState, props) => {
+      return {
+      persons: persons,
+      changeCounter: prevState.changeCounter + 1};
+     });
+  };
 
   render() {
     console.log('[App.js] render');
