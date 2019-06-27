@@ -13,9 +13,13 @@ class Person extends Component{
         this.inputElementRef = React.createRef();
     }
 
+    // Easier access to context
+    static contextType = AuthContext;
+
     componentDidMount() {
         // this.inputElement.focus();
         this.inputElementRef.current.focus();
+        console.log(this.context.authenticated);
     }
 
     render()
@@ -26,9 +30,7 @@ class Person extends Component{
             // Fragment is another way to use Aux but it's included with React
             // they're exactly the same thing.
             <Aux>
-                <AuthContext.Consumer>
-                    {(context) => context.authenticated ? <p>Authenticated!</p> : <p>Please log in!</p>}
-                </AuthContext.Consumer>
+                {this.context.authenticated ? <p>Authenticated!</p> : <p>Please log in!</p>}
                 <p key="i1" onClick={this.props.click}>I'm {this.props.name} and I am {this.props.age} years old!</p>
                 <p key="i2">{this.props.children}</p>
                 <input 
