@@ -1,15 +1,25 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import classes from './Cockpit.css';
+import AuthContext from '../../context/auth-context';
 
 
 const cockpit = (props) => {
+    // Similar to React.createRef(); but in functional components
+    const toggleBtnRef = useRef(null);
+
     useEffect(() => {
       console.log('[Cockpit.js] useEffect');
       // Http request...
-      setTimeout(() => {
-        alert('Saved data to cloud!');
-      }, 1000);
+      // setTimeout(() => {
+      //   alert('Saved data to cloud!');
+      // }, 1000);
+
+      //Good place to put this because it renders after
+      // the render cycle executes. But only once because
+      // of our empty array argument below
+      toggleBtnRef.current.click();
+
       return () => { //this will run before the regular useEffect function, but after the first render cycle
         // clearTimeout(timer);
         console.log('[Cockpit.js] cleanup work in useEffect');
@@ -42,9 +52,13 @@ const cockpit = (props) => {
             <h1>{props.title}</h1>
             <p className={assignedClasses.join(' ')}>This is really working!</p>
             <button
-            className = {btnClass}
-            onClick={props.clicked}>Toggle Persons
+              ref={toggleBtnRef}
+              className = {btnClass}
+              onClick={props.clicked}>Toggle Persons
             </button>
+            <AuthContext.Consumer>
+              {context => <button onClick={context.login}>Log in</button>}
+            </AuthContext.Consumer>
         </div>
     );
 };
